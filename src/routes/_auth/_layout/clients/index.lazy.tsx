@@ -1,20 +1,16 @@
-import InvoicesTable from "@/components/invoice/InvoicesTable";
-import { invoicesOptions } from "@/queries";
+import ClientsTable from "@/components/client/ClientsTable";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Paper, Typography } from "@mui/material";
-import { Link as RouterLink, createFileRoute } from "@tanstack/react-router";
+import {
+  Link as RouterLink,
+  createLazyFileRoute,
+} from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_auth/_layout/invoices/")({
-  loaderDeps: ({ search }) => search,
-  beforeLoad: () => ({
-    getTitle: () => "Invoices",
-  }),
-  loader: ({ context }) =>
-    context.queryClient?.ensureQueryData(invoicesOptions),
-  component: Invoices,
+export const Route = createLazyFileRoute("/_auth/_layout/clients/")({
+  component: RouteComponent,
 });
 
-function Invoices() {
+function RouteComponent() {
   return (
     <Box
       sx={{
@@ -33,16 +29,16 @@ function Invoices() {
           }}
         >
           <Typography component="h1" variant="h4" fontWeight="bold">
-            Invoices
+            Clients
           </Typography>
 
-          <RouterLink to="/invoices/create">
+          <RouterLink to="/clients/create">
             <Button variant="contained" startIcon={<AddIcon />}>
-              New Invoice
+              New Client
             </Button>
           </RouterLink>
         </Box>
-        <InvoicesTable />
+        <ClientsTable />
       </Paper>
     </Box>
   );

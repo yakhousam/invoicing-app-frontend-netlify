@@ -1,20 +1,13 @@
-import ClientsTable from '@/components/client/ClientsTable'
-import { clientsOptions } from '@/queries'
+import InvoicesTable from '@/components/invoice/InvoicesTable'
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, Paper, Typography } from '@mui/material'
-import { Link as RouterLink, createFileRoute } from '@tanstack/react-router'
+import { Link as RouterLink, createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_auth/_layout/clients/')({
-  beforeLoad: () => {
-    return {
-      getTitle: () => 'Clients',
-    }
-  },
-  loader: ({ context }) => context.queryClient.ensureQueryData(clientsOptions),
-  component: Clients,
+export const Route = createLazyFileRoute('/_auth/_layout/invoices/')({
+  component: RouteComponent,
 })
 
-function Clients() {
+function RouteComponent() {
   return (
     <Box
       sx={{
@@ -33,16 +26,16 @@ function Clients() {
           }}
         >
           <Typography component="h1" variant="h4" fontWeight="bold">
-            Clients
+            Invoices
           </Typography>
 
-          <RouterLink to="/clients/create">
+          <RouterLink to="/invoices/create">
             <Button variant="contained" startIcon={<AddIcon />}>
-              New Client
+              New Invoice
             </Button>
           </RouterLink>
         </Box>
-        <ClientsTable />
+        <InvoicesTable />
       </Paper>
     </Box>
   )

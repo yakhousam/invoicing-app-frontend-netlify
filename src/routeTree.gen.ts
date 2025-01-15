@@ -13,29 +13,24 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthLayoutSettingsImport } from './routes/_auth/_layout/settings'
 import { Route as AuthLayoutOverviewImport } from './routes/_auth/_layout/overview'
-import { Route as AuthLayoutInvoicesIndexImport } from './routes/_auth/_layout/invoices.index'
-import { Route as AuthLayoutClientsIndexImport } from './routes/_auth/_layout/clients.index'
-import { Route as AuthLayoutInvoicesCreateImport } from './routes/_auth/_layout/invoices.create'
-import { Route as AuthLayoutInvoicesIdImport } from './routes/_auth/_layout/invoices.$id'
-import { Route as AuthLayoutClientsCreateImport } from './routes/_auth/_layout/clients.create'
-import { Route as AuthLayoutClientsIdImport } from './routes/_auth/_layout/clients.$id'
+import { Route as AuthLayoutInvoicesIndexImport } from './routes/_auth/_layout/invoices/index'
+import { Route as AuthLayoutClientsIndexImport } from './routes/_auth/_layout/clients/index'
+import { Route as AuthLayoutInvoicesCreateImport } from './routes/_auth/_layout/invoices/create'
+import { Route as AuthLayoutInvoicesIdImport } from './routes/_auth/_layout/invoices/$id'
+import { Route as AuthLayoutClientsCreateImport } from './routes/_auth/_layout/clients/create'
+import { Route as AuthLayoutClientsIdImport } from './routes/_auth/_layout/clients/$id'
 
 // Create Virtual Routes
 
 const AuthLayoutLazyImport = createFileRoute('/_auth/_layout')()
+const AuthLayoutSettingsLazyImport = createFileRoute(
+  '/_auth/_layout/settings',
+)()
 
 // Create/Update Routes
-
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const AuthRoute = AuthImport.update({
   id: '/_auth',
@@ -53,53 +48,69 @@ const AuthLayoutLazyRoute = AuthLayoutLazyImport.update({
   getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./routes/_auth/_layout.lazy').then((d) => d.Route))
 
-const AuthLayoutSettingsRoute = AuthLayoutSettingsImport.update({
+const AuthLayoutSettingsLazyRoute = AuthLayoutSettingsLazyImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/settings.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutOverviewRoute = AuthLayoutOverviewImport.update({
   id: '/overview',
   path: '/overview',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/overview.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutInvoicesIndexRoute = AuthLayoutInvoicesIndexImport.update({
   id: '/invoices/',
   path: '/invoices/',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/invoices/index.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutClientsIndexRoute = AuthLayoutClientsIndexImport.update({
   id: '/clients/',
   path: '/clients/',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/clients/index.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutInvoicesCreateRoute = AuthLayoutInvoicesCreateImport.update({
   id: '/invoices/create',
   path: '/invoices/create',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/invoices/create.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutInvoicesIdRoute = AuthLayoutInvoicesIdImport.update({
   id: '/invoices/$id',
   path: '/invoices/$id',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/invoices/$id.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutClientsCreateRoute = AuthLayoutClientsCreateImport.update({
   id: '/clients/create',
   path: '/clients/create',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/clients/create.lazy').then((d) => d.Route),
+)
 
 const AuthLayoutClientsIdRoute = AuthLayoutClientsIdImport.update({
   id: '/clients/$id',
   path: '/clients/$id',
   getParentRoute: () => AuthLayoutLazyRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_auth/_layout/clients/$id.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -117,13 +128,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
     '/_auth/_layout': {
@@ -144,7 +148,7 @@ declare module '@tanstack/react-router' {
       id: '/_auth/_layout/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof AuthLayoutSettingsImport
+      preLoaderRoute: typeof AuthLayoutSettingsLazyImport
       parentRoute: typeof AuthLayoutLazyImport
     }
     '/_auth/_layout/clients/$id': {
@@ -196,7 +200,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthLayoutLazyRouteChildren {
   AuthLayoutOverviewRoute: typeof AuthLayoutOverviewRoute
-  AuthLayoutSettingsRoute: typeof AuthLayoutSettingsRoute
+  AuthLayoutSettingsLazyRoute: typeof AuthLayoutSettingsLazyRoute
   AuthLayoutClientsIdRoute: typeof AuthLayoutClientsIdRoute
   AuthLayoutClientsCreateRoute: typeof AuthLayoutClientsCreateRoute
   AuthLayoutInvoicesIdRoute: typeof AuthLayoutInvoicesIdRoute
@@ -207,7 +211,7 @@ interface AuthLayoutLazyRouteChildren {
 
 const AuthLayoutLazyRouteChildren: AuthLayoutLazyRouteChildren = {
   AuthLayoutOverviewRoute: AuthLayoutOverviewRoute,
-  AuthLayoutSettingsRoute: AuthLayoutSettingsRoute,
+  AuthLayoutSettingsLazyRoute: AuthLayoutSettingsLazyRoute,
   AuthLayoutClientsIdRoute: AuthLayoutClientsIdRoute,
   AuthLayoutClientsCreateRoute: AuthLayoutClientsCreateRoute,
   AuthLayoutInvoicesIdRoute: AuthLayoutInvoicesIdRoute,
@@ -233,9 +237,8 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthLayoutLazyRouteWithChildren
-  '/about': typeof AboutRoute
   '/overview': typeof AuthLayoutOverviewRoute
-  '/settings': typeof AuthLayoutSettingsRoute
+  '/settings': typeof AuthLayoutSettingsLazyRoute
   '/clients/$id': typeof AuthLayoutClientsIdRoute
   '/clients/create': typeof AuthLayoutClientsCreateRoute
   '/invoices/$id': typeof AuthLayoutInvoicesIdRoute
@@ -247,9 +250,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthLayoutLazyRouteWithChildren
-  '/about': typeof AboutRoute
   '/overview': typeof AuthLayoutOverviewRoute
-  '/settings': typeof AuthLayoutSettingsRoute
+  '/settings': typeof AuthLayoutSettingsLazyRoute
   '/clients/$id': typeof AuthLayoutClientsIdRoute
   '/clients/create': typeof AuthLayoutClientsCreateRoute
   '/invoices/$id': typeof AuthLayoutInvoicesIdRoute
@@ -262,10 +264,9 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
-  '/about': typeof AboutRoute
   '/_auth/_layout': typeof AuthLayoutLazyRouteWithChildren
   '/_auth/_layout/overview': typeof AuthLayoutOverviewRoute
-  '/_auth/_layout/settings': typeof AuthLayoutSettingsRoute
+  '/_auth/_layout/settings': typeof AuthLayoutSettingsLazyRoute
   '/_auth/_layout/clients/$id': typeof AuthLayoutClientsIdRoute
   '/_auth/_layout/clients/create': typeof AuthLayoutClientsCreateRoute
   '/_auth/_layout/invoices/$id': typeof AuthLayoutInvoicesIdRoute
@@ -279,7 +280,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/about'
     | '/overview'
     | '/settings'
     | '/clients/$id'
@@ -292,7 +292,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
-    | '/about'
     | '/overview'
     | '/settings'
     | '/clients/$id'
@@ -305,7 +304,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_auth'
-    | '/about'
     | '/_auth/_layout'
     | '/_auth/_layout/overview'
     | '/_auth/_layout/settings'
@@ -321,13 +319,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
-  AboutRoute: typeof AboutRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
-  AboutRoute: AboutRoute,
 }
 
 export const routeTree = rootRoute
@@ -341,8 +337,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_auth",
-        "/about"
+        "/_auth"
       ]
     },
     "/": {
@@ -353,9 +348,6 @@ export const routeTree = rootRoute
       "children": [
         "/_auth/_layout"
       ]
-    },
-    "/about": {
-      "filePath": "about.tsx"
     },
     "/_auth/_layout": {
       "filePath": "_auth/_layout.lazy.tsx",
@@ -376,31 +368,31 @@ export const routeTree = rootRoute
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/settings": {
-      "filePath": "_auth/_layout/settings.tsx",
+      "filePath": "_auth/_layout/settings.lazy.tsx",
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/clients/$id": {
-      "filePath": "_auth/_layout/clients.$id.tsx",
+      "filePath": "_auth/_layout/clients/$id.tsx",
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/clients/create": {
-      "filePath": "_auth/_layout/clients.create.tsx",
+      "filePath": "_auth/_layout/clients/create.tsx",
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/invoices/$id": {
-      "filePath": "_auth/_layout/invoices.$id.tsx",
+      "filePath": "_auth/_layout/invoices/$id.tsx",
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/invoices/create": {
-      "filePath": "_auth/_layout/invoices.create.tsx",
+      "filePath": "_auth/_layout/invoices/create.tsx",
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/clients/": {
-      "filePath": "_auth/_layout/clients.index.tsx",
+      "filePath": "_auth/_layout/clients/index.tsx",
       "parent": "/_auth/_layout"
     },
     "/_auth/_layout/invoices/": {
-      "filePath": "_auth/_layout/invoices.index.tsx",
+      "filePath": "_auth/_layout/invoices/index.tsx",
       "parent": "/_auth/_layout"
     }
   }

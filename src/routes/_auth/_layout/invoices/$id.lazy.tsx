@@ -1,19 +1,12 @@
 import EditInvoiceForm from "@/components/invoice/EditInvoiceForm";
-import { invoiceByIdOptions } from "@/queries";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createLazyFileRoute, useRouter } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_auth/_layout/invoices/$id")({
-  beforeLoad: () => ({
-    getTitle: () => "Invoice",
-  }),
-  loader: ({ context, params }) => {
-    return context.queryClient?.ensureQueryData(invoiceByIdOptions(params.id));
-  },
-  component: Invoice,
+export const Route = createLazyFileRoute("/_auth/_layout/invoices/$id")({
+  component: RouteComponent,
 });
 
-function Invoice() {
+function RouteComponent() {
   const router = useRouter();
 
   const onDeleteInvoice = () => {

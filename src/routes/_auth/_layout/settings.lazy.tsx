@@ -1,13 +1,12 @@
-import PasswordUpdate from "@/components/settings/PasswordUpdate";
-import Signature from "@/components/settings/Signature";
-import UserInfos from "@/components/settings/UserInfos";
-import { Box, Paper } from "@mui/material";
-import { createFileRoute } from "@tanstack/react-router";
+// import PasswordUpdate from "@/components/settings/PasswordUpdate";
+import Signature from '@/components/settings/Signature'
+import UserInfos from '@/components/settings/UserInfos'
+import { Box, Paper } from '@mui/material'
+import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute("/_auth/_layout/settings")({
-  beforeLoad: () => ({}),
+export const Route = createLazyFileRoute('/_auth/_layout/settings')({
   component: () => <Settings />,
-});
+})
 
 function Settings() {
   return (
@@ -24,7 +23,7 @@ function Settings() {
         <PasswordUpdate />
       </Wrapper> */}
     </>
-  );
+  )
 }
 
 function Wrapper({ children }: { children: React.ReactNode }) {
@@ -32,10 +31,10 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     <Box
       sx={{
         maxWidth: (theme) => theme.breakpoints.values.sm,
-        margin: "auto",
+        margin: 'auto',
       }}
     >
       <Paper sx={{ px: 4, py: 2 }}>{children}</Paper>
     </Box>
-  );
+  )
 }
