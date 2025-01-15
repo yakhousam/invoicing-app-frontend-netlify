@@ -1,4 +1,4 @@
-import LoadingButton, {
+import {
   LoadingButtonDelete,
   LoadingButtonSave,
 } from "@/components/LoadingButton";
@@ -109,7 +109,7 @@ const EditInvoiceForm = ({
 
   const {
     handleSubmit,
-    formState: { isDirty, isSubmitting },
+    formState: { isDirty },
   } = formMethods;
 
   const onSubmit = (data: UpdateInvoice) => {
@@ -270,21 +270,10 @@ const EditInvoiceForm = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <LoadingButton
-            loading={isSubmitting}
-            disabled={!isDirty || isSubmitting}
-            onClick={() => setOpenDeleteDialog(false)}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            loading={isPendingDeletion}
-            disabled={isPendingDeletion}
-            variant="contained"
-            onClick={handleDeleteInvoice}
-          >
+          <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
+          <Button variant="contained" onClick={handleDeleteInvoice}>
             Delete
-          </LoadingButton>
+          </Button>
         </DialogActions>
       </Dialog>
     </>
