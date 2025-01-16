@@ -13,7 +13,6 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as LayoutImport } from './routes/_layout'
-import { Route as IndexImport } from './routes/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutOverviewImport } from './routes/_layout/overview'
 import { Route as LayoutInvoicesIndexImport } from './routes/_layout/invoices.index'
@@ -33,12 +32,6 @@ const AboutRoute = AboutImport.update({
 
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -94,13 +87,6 @@ const LayoutClientsIdRoute = LayoutClientsIdImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -202,7 +188,6 @@ const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/overview': typeof LayoutOverviewRoute
@@ -216,7 +201,6 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/overview': typeof LayoutOverviewRoute
@@ -231,7 +215,6 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/_layout/overview': typeof LayoutOverviewRoute
@@ -247,7 +230,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | ''
     | '/about'
     | '/overview'
@@ -260,7 +242,6 @@ export interface FileRouteTypes {
     | '/invoices'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | ''
     | '/about'
     | '/overview'
@@ -273,7 +254,6 @@ export interface FileRouteTypes {
     | '/invoices'
   id:
     | '__root__'
-    | '/'
     | '/_layout'
     | '/about'
     | '/_layout/overview'
@@ -288,13 +268,11 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
   AboutRoute: AboutRoute,
 }
@@ -309,13 +287,9 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/_layout",
         "/about"
       ]
-    },
-    "/": {
-      "filePath": "index.tsx"
     },
     "/_layout": {
       "filePath": "_layout.tsx",

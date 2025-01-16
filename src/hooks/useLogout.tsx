@@ -5,7 +5,8 @@ const useLogout = () => {
   const auth = useAuth();
 
   const handleLogout = () => {
-    auth.removeUser();
+    // auth.removeUser();
+    auth.signoutSilent();
     const clientId = config.clientId;
     const logoutUri = config.singoutUri;
     const cognitoDomain = config.domain;
