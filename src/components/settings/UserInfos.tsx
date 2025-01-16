@@ -35,14 +35,19 @@ function UserInfos() {
     handleSubmit,
     setError,
     formState: { isSubmitting, isDirty },
+    reset,
+    getValues,
   } = formMethods;
 
   const mutation = useMutation({
     mutationFn: (data: UpdateUser) =>
       serviceUser.updateUser(auth.user?.access_token as string, data),
-    onSuccess: (data) => {
+    onSuccess: () => {
       enqueueSnackbar("Profile updated", { variant: "success" });
-      // queryClient.setQueryData(getUserOptions('').queryKey, data)
+      queryClient.invalidateQueries(
+        getUserOptions(auth.user?.access_token as string)
+      );
+      reset(getValues());
     },
     onError: async (error: Error | Response) => {
       if (error instanceof Response && error.status === 409) {
@@ -56,8 +61,12 @@ function UserInfos() {
     },
   });
   const onSubmit = (data: User) => {
+    if (mutation.isPending) {
+      return;
+    }
     mutation.mutate(data);
   };
+
   return (
     <>
       <Typography variant="h5" fontWeight="bold">
@@ -92,8 +101,8 @@ function UserInfos() {
             />
             <LoadingButtonSave
               type="submit"
-              loading={isSubmitting}
-              disabled={!isDirty}
+              loading={isSubmitting || mutation.isPending}
+              disabled={!isDirty || mutation.isPending}
               sx={{ alignSelf: "flex-end" }}
             >
               Save

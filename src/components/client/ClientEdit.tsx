@@ -13,7 +13,7 @@ import { FormProvider, useForm } from "react-hook-form";
 const ClientEdit = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
-  const { id } = useParams({ from: "/_auth/_layout/clients/$id" });
+  const { id } = useParams({ from: "/_layout/clients/$id" });
 
   const { data, isLoading } = useQuery(clientByIdOptions(id));
 
