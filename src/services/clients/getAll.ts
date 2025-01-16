@@ -1,14 +1,12 @@
 import fetchClient from "@/utils/fetchClient";
 import { clientSchema, type Client } from "@/validations";
-
-const clientsURL = import.meta.env?.VITE_APP_CLIENTS_URL;
+import * as config from "@/config";
 
 export default async function getAll(): Promise<{
   clients: Client[];
   count: number;
 }> {
-  const response = await fetchClient.fetch(clientsURL);
-
+  const response = await fetchClient.fetch(config.clientsUrl);
   if (response.status === 404) {
     return {
       clients: [],
