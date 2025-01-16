@@ -1,17 +1,20 @@
-import ClientForm from "@/components/client/ClientForm";
-import { Box, Paper, Typography } from "@mui/material";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import ClientForm from '@/components/client/ClientForm'
+import { Box, Paper, Typography } from '@mui/material'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute("/_auth/_layout/clients/create")({
-  component: RouteComponent,
-});
+export const Route = createFileRoute('/_auth/_layout/clients/create')({
+  beforeLoad: () => ({
+    getTitle: () => 'Add New Client',
+  }),
+  component: NewClient,
+})
 
-function RouteComponent() {
+function NewClient() {
   return (
     <Box
       sx={{
         maxWidth: (theme) => theme.breakpoints.values.sm,
-        mx: "auto",
+        mx: 'auto',
         mt: 4,
       }}
     >
@@ -27,5 +30,5 @@ function RouteComponent() {
         <ClientForm />
       </Paper>
     </Box>
-  );
+  )
 }

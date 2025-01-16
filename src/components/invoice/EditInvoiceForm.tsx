@@ -32,13 +32,15 @@ import {
 import { useParams } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useSnackbar } from "notistack";
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-// import DownloadInvoiceBtn from "./pdf/DownloadInvoiceBtn";
+import DownloadInvoiceBtn from "./pdf/DownloadInvoiceBtn";
 
-const DownloadInvoiceBtn = lazy(() => import("./pdf/DownloadInvoiceBtn"));
-
-function EditInvoiceForm({ onDeleteInvoice }: { onDeleteInvoice: () => void }) {
+const EditInvoiceForm = ({
+  onDeleteInvoice,
+}: {
+  onDeleteInvoice: () => void;
+}) => {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
   const { id } = useParams({ from: "/_auth/_layout/invoices/$id" });
@@ -133,9 +135,7 @@ function EditInvoiceForm({ onDeleteInvoice }: { onDeleteInvoice: () => void }) {
         >
           <Grid container size={{ xs: 12 }} spacing={3} alignItems="flex-start">
             <Grid size={{ xs: 12 }}>
-              <Suspense>
-                <DownloadInvoiceBtn {...data} />
-              </Suspense>
+              <DownloadInvoiceBtn {...data} />
             </Grid>
             <Grid container size={{ xs: 6 }} spacing={1}>
               <Grid size={{ xs: 12 }}>
@@ -278,6 +278,6 @@ function EditInvoiceForm({ onDeleteInvoice }: { onDeleteInvoice: () => void }) {
       </Dialog>
     </>
   );
-}
+};
 
 export default EditInvoiceForm;
