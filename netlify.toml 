@@ -1,0 +1,20 @@
+
+[[redirects]]
+  from = "/"
+  to = "/static-home.html"
+  status = 200
+
+[[redirects]]
+  from = "/overview"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ivoices
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/clients
+  to = "/index.html"
+  status = 200
