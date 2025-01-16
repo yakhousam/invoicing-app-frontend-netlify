@@ -1,19 +1,38 @@
 import CreateInvoiceForm from "@/components/invoice/CreateInvoiceForm";
 import { Wrapper } from "./utils/wrappers";
 import userEvent from "@testing-library/user-event";
-import { generateClients, generateInvoice } from "./utils/generate";
+import {
+  generateClients,
+  generateInvoice,
+  generateUser,
+} from "./utils/generate";
 import { screen, render, waitFor } from "@testing-library/react";
 import { vi, describe, it, afterAll, expect, Mock } from "vitest";
+import { mockClient } from "aws-sdk-client-mock";
+import {
+  CognitoIdentityProviderClient,
+  GetUserCommand,
+} from "@aws-sdk/client-cognito-identity-provider";
 
-global.fetch = vi.fn();
+const cognitoMock = mockClient(CognitoIdentityProviderClient);
+const authUser = generateUser();
+cognitoMock.on(GetUserCommand).resolves({
+  UserAttributes: [
+    {
+      Name: "name",
+      Value: authUser.name,
+    },
+    {
+      Name: "email",
+      Value: authUser.email,
+    },
+  ],
+});
 
 describe("InvoiceForm", () => {
   it("renders a form", async () => {
-    (fetch as Mock).mockResolvedValueOnce(
-      new Response(JSON.stringify(generateClients(2)), { status: 200 })
-    );
     render(<CreateInvoiceForm />, { wrapper: Wrapper });
-    screen.debug();
+    // need to wait for data to be fetched
     expect(
       await screen.findByLabelText(/invoice due days/i)
     ).toBeInTheDocument();
@@ -21,7 +40,9 @@ describe("InvoiceForm", () => {
     expect(screen.getByLabelText(/client/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/currency/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/tax percentage/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/invoice items/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /invoice items/i })
+    ).toBeInTheDocument();
     expect(screen.getByLabelText(/add item/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/description/i)).toHaveValue("");
     expect(screen.getByLabelText(/price/i)).toHaveValue(0);
