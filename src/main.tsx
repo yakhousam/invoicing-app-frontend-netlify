@@ -1,16 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  ErrorComponent,
-  RouterProvider,
-  createRouter,
-} from "@tanstack/react-router";
+import { ErrorComponent, createRouter } from "@tanstack/react-router";
 import { SnackbarProvider } from "notistack";
 import ReactDOM from "react-dom/client";
-import { AuthProvider, useAuth } from "react-oidc-context";
+import { AuthProvider } from "react-oidc-context";
+import App from "./App";
 import { Spinner } from "./components/spinner";
-import { routeTree } from "./routeTree.gen";
-import fetchClient from "./utils/fetchClient";
 import { cognitoAuthConfig } from "./config";
+import { routeTree } from "./routeTree.gen";
 
 const queryClient = new QueryClient();
 
@@ -45,44 +41,9 @@ if (!rootElement.innerHTML) {
           anchorOrigin={{ horizontal: "right", vertical: "top" }}
           autoHideDuration={3000}
         >
-          <InnerApp />
+          <App router={router} />
         </SnackbarProvider>
       </QueryClientProvider>
     </AuthProvider>
   );
-}
-
-function InnerApp() {
-  const auth = useAuth();
-  if (auth.isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        Loading...
-      </div>
-    );
-  }
-
-  if (auth.error) {
-    return <div>Encountering error... {auth.error.message}</div>;
-  }
-  // Set the token on the fetchClient
-  if (auth.user?.access_token) {
-    console.log("auth.user?.access_token", auth.user?.access_token);
-    console.log("auth.user", auth.user);
-    fetchClient.setToken(auth.user?.access_token as string);
-    // getUserAttributes(auth.user?.access_token as string);
-    // updateUserSignature(
-    //   auth.user?.access_token as string,
-    //   "https://example.com"
-    // );
-  }
-
-  return <RouterProvider router={router} context={{ auth }} />;
 }

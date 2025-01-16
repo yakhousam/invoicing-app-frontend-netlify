@@ -8,7 +8,7 @@ import { Box, CssBaseline } from '@mui/material'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import React from 'react'
 
-export const Route = createFileRoute('/_auth/_layout')({
+export const Route = createFileRoute('/_layout')({
   component: Layout,
 })
 

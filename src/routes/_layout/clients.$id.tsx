@@ -2,7 +2,7 @@ import ClientEdit from '@/components/client/ClientEdit'
 import { Box, Paper, Stack } from '@mui/material'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_auth/_layout/clients/$id')({
+export const Route = createFileRoute('/_layout/clients/$id')({
   beforeLoad: () => {
     return {
       getTitle: () => 'Client Edit',

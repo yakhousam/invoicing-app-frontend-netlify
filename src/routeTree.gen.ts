@@ -12,17 +12,16 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
-import { Route as AuthImport } from './routes/_auth'
+import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthLayoutImport } from './routes/_auth/_layout'
-import { Route as AuthLayoutSettingsImport } from './routes/_auth/_layout/settings'
-import { Route as AuthLayoutOverviewImport } from './routes/_auth/_layout/overview'
-import { Route as AuthLayoutInvoicesIndexImport } from './routes/_auth/_layout/invoices.index'
-import { Route as AuthLayoutClientsIndexImport } from './routes/_auth/_layout/clients.index'
-import { Route as AuthLayoutInvoicesCreateImport } from './routes/_auth/_layout/invoices.create'
-import { Route as AuthLayoutInvoicesIdImport } from './routes/_auth/_layout/invoices.$id'
-import { Route as AuthLayoutClientsCreateImport } from './routes/_auth/_layout/clients.create'
-import { Route as AuthLayoutClientsIdImport } from './routes/_auth/_layout/clients.$id'
+import { Route as LayoutSettingsImport } from './routes/_layout/settings'
+import { Route as LayoutOverviewImport } from './routes/_layout/overview'
+import { Route as LayoutInvoicesIndexImport } from './routes/_layout/invoices.index'
+import { Route as LayoutClientsIndexImport } from './routes/_layout/clients.index'
+import { Route as LayoutInvoicesCreateImport } from './routes/_layout/invoices.create'
+import { Route as LayoutInvoicesIdImport } from './routes/_layout/invoices.$id'
+import { Route as LayoutClientsCreateImport } from './routes/_layout/clients.create'
+import { Route as LayoutClientsIdImport } from './routes/_layout/clients.$id'
 
 // Create/Update Routes
 
@@ -32,8 +31,8 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthRoute = AuthImport.update({
-  id: '/_auth',
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -43,57 +42,52 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthLayoutRoute = AuthLayoutImport.update({
-  id: '/_layout',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthLayoutSettingsRoute = AuthLayoutSettingsImport.update({
+const LayoutSettingsRoute = LayoutSettingsImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutOverviewRoute = AuthLayoutOverviewImport.update({
+const LayoutOverviewRoute = LayoutOverviewImport.update({
   id: '/overview',
   path: '/overview',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutInvoicesIndexRoute = AuthLayoutInvoicesIndexImport.update({
+const LayoutInvoicesIndexRoute = LayoutInvoicesIndexImport.update({
   id: '/invoices/',
   path: '/invoices/',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutClientsIndexRoute = AuthLayoutClientsIndexImport.update({
+const LayoutClientsIndexRoute = LayoutClientsIndexImport.update({
   id: '/clients/',
   path: '/clients/',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutInvoicesCreateRoute = AuthLayoutInvoicesCreateImport.update({
+const LayoutInvoicesCreateRoute = LayoutInvoicesCreateImport.update({
   id: '/invoices/create',
   path: '/invoices/create',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutInvoicesIdRoute = AuthLayoutInvoicesIdImport.update({
+const LayoutInvoicesIdRoute = LayoutInvoicesIdImport.update({
   id: '/invoices/$id',
   path: '/invoices/$id',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutClientsCreateRoute = AuthLayoutClientsCreateImport.update({
+const LayoutClientsCreateRoute = LayoutClientsCreateImport.update({
   id: '/clients/create',
   path: '/clients/create',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const AuthLayoutClientsIdRoute = AuthLayoutClientsIdImport.update({
+const LayoutClientsIdRoute = LayoutClientsIdImport.update({
   id: '/clients/$id',
   path: '/clients/$id',
-  getParentRoute: () => AuthLayoutRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -107,11 +101,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_auth': {
-      id: '/_auth'
+    '/_layout': {
+      id: '/_layout'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthImport
+      preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
     '/about': {
@@ -121,152 +115,133 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/_layout': {
-      id: '/_auth/_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthLayoutImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/_layout/overview': {
-      id: '/_auth/_layout/overview'
+    '/_layout/overview': {
+      id: '/_layout/overview'
       path: '/overview'
       fullPath: '/overview'
-      preLoaderRoute: typeof AuthLayoutOverviewImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutOverviewImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/settings': {
-      id: '/_auth/_layout/settings'
+    '/_layout/settings': {
+      id: '/_layout/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof AuthLayoutSettingsImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutSettingsImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/clients/$id': {
-      id: '/_auth/_layout/clients/$id'
+    '/_layout/clients/$id': {
+      id: '/_layout/clients/$id'
       path: '/clients/$id'
       fullPath: '/clients/$id'
-      preLoaderRoute: typeof AuthLayoutClientsIdImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutClientsIdImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/clients/create': {
-      id: '/_auth/_layout/clients/create'
+    '/_layout/clients/create': {
+      id: '/_layout/clients/create'
       path: '/clients/create'
       fullPath: '/clients/create'
-      preLoaderRoute: typeof AuthLayoutClientsCreateImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutClientsCreateImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/invoices/$id': {
-      id: '/_auth/_layout/invoices/$id'
+    '/_layout/invoices/$id': {
+      id: '/_layout/invoices/$id'
       path: '/invoices/$id'
       fullPath: '/invoices/$id'
-      preLoaderRoute: typeof AuthLayoutInvoicesIdImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutInvoicesIdImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/invoices/create': {
-      id: '/_auth/_layout/invoices/create'
+    '/_layout/invoices/create': {
+      id: '/_layout/invoices/create'
       path: '/invoices/create'
       fullPath: '/invoices/create'
-      preLoaderRoute: typeof AuthLayoutInvoicesCreateImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutInvoicesCreateImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/clients/': {
-      id: '/_auth/_layout/clients/'
+    '/_layout/clients/': {
+      id: '/_layout/clients/'
       path: '/clients'
       fullPath: '/clients'
-      preLoaderRoute: typeof AuthLayoutClientsIndexImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutClientsIndexImport
+      parentRoute: typeof LayoutImport
     }
-    '/_auth/_layout/invoices/': {
-      id: '/_auth/_layout/invoices/'
+    '/_layout/invoices/': {
+      id: '/_layout/invoices/'
       path: '/invoices'
       fullPath: '/invoices'
-      preLoaderRoute: typeof AuthLayoutInvoicesIndexImport
-      parentRoute: typeof AuthLayoutImport
+      preLoaderRoute: typeof LayoutInvoicesIndexImport
+      parentRoute: typeof LayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthLayoutRouteChildren {
-  AuthLayoutOverviewRoute: typeof AuthLayoutOverviewRoute
-  AuthLayoutSettingsRoute: typeof AuthLayoutSettingsRoute
-  AuthLayoutClientsIdRoute: typeof AuthLayoutClientsIdRoute
-  AuthLayoutClientsCreateRoute: typeof AuthLayoutClientsCreateRoute
-  AuthLayoutInvoicesIdRoute: typeof AuthLayoutInvoicesIdRoute
-  AuthLayoutInvoicesCreateRoute: typeof AuthLayoutInvoicesCreateRoute
-  AuthLayoutClientsIndexRoute: typeof AuthLayoutClientsIndexRoute
-  AuthLayoutInvoicesIndexRoute: typeof AuthLayoutInvoicesIndexRoute
+interface LayoutRouteChildren {
+  LayoutOverviewRoute: typeof LayoutOverviewRoute
+  LayoutSettingsRoute: typeof LayoutSettingsRoute
+  LayoutClientsIdRoute: typeof LayoutClientsIdRoute
+  LayoutClientsCreateRoute: typeof LayoutClientsCreateRoute
+  LayoutInvoicesIdRoute: typeof LayoutInvoicesIdRoute
+  LayoutInvoicesCreateRoute: typeof LayoutInvoicesCreateRoute
+  LayoutClientsIndexRoute: typeof LayoutClientsIndexRoute
+  LayoutInvoicesIndexRoute: typeof LayoutInvoicesIndexRoute
 }
 
-const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
-  AuthLayoutOverviewRoute: AuthLayoutOverviewRoute,
-  AuthLayoutSettingsRoute: AuthLayoutSettingsRoute,
-  AuthLayoutClientsIdRoute: AuthLayoutClientsIdRoute,
-  AuthLayoutClientsCreateRoute: AuthLayoutClientsCreateRoute,
-  AuthLayoutInvoicesIdRoute: AuthLayoutInvoicesIdRoute,
-  AuthLayoutInvoicesCreateRoute: AuthLayoutInvoicesCreateRoute,
-  AuthLayoutClientsIndexRoute: AuthLayoutClientsIndexRoute,
-  AuthLayoutInvoicesIndexRoute: AuthLayoutInvoicesIndexRoute,
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutOverviewRoute: LayoutOverviewRoute,
+  LayoutSettingsRoute: LayoutSettingsRoute,
+  LayoutClientsIdRoute: LayoutClientsIdRoute,
+  LayoutClientsCreateRoute: LayoutClientsCreateRoute,
+  LayoutInvoicesIdRoute: LayoutInvoicesIdRoute,
+  LayoutInvoicesCreateRoute: LayoutInvoicesCreateRoute,
+  LayoutClientsIndexRoute: LayoutClientsIndexRoute,
+  LayoutInvoicesIndexRoute: LayoutInvoicesIndexRoute,
 }
 
-const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
-  AuthLayoutRouteChildren,
-)
-
-interface AuthRouteChildren {
-  AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthLayoutRoute: AuthLayoutRouteWithChildren,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthLayoutRouteWithChildren
+  '': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
-  '/overview': typeof AuthLayoutOverviewRoute
-  '/settings': typeof AuthLayoutSettingsRoute
-  '/clients/$id': typeof AuthLayoutClientsIdRoute
-  '/clients/create': typeof AuthLayoutClientsCreateRoute
-  '/invoices/$id': typeof AuthLayoutInvoicesIdRoute
-  '/invoices/create': typeof AuthLayoutInvoicesCreateRoute
-  '/clients': typeof AuthLayoutClientsIndexRoute
-  '/invoices': typeof AuthLayoutInvoicesIndexRoute
+  '/overview': typeof LayoutOverviewRoute
+  '/settings': typeof LayoutSettingsRoute
+  '/clients/$id': typeof LayoutClientsIdRoute
+  '/clients/create': typeof LayoutClientsCreateRoute
+  '/invoices/$id': typeof LayoutInvoicesIdRoute
+  '/invoices/create': typeof LayoutInvoicesCreateRoute
+  '/clients': typeof LayoutClientsIndexRoute
+  '/invoices': typeof LayoutInvoicesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthLayoutRouteWithChildren
+  '': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
-  '/overview': typeof AuthLayoutOverviewRoute
-  '/settings': typeof AuthLayoutSettingsRoute
-  '/clients/$id': typeof AuthLayoutClientsIdRoute
-  '/clients/create': typeof AuthLayoutClientsCreateRoute
-  '/invoices/$id': typeof AuthLayoutInvoicesIdRoute
-  '/invoices/create': typeof AuthLayoutInvoicesCreateRoute
-  '/clients': typeof AuthLayoutClientsIndexRoute
-  '/invoices': typeof AuthLayoutInvoicesIndexRoute
+  '/overview': typeof LayoutOverviewRoute
+  '/settings': typeof LayoutSettingsRoute
+  '/clients/$id': typeof LayoutClientsIdRoute
+  '/clients/create': typeof LayoutClientsCreateRoute
+  '/invoices/$id': typeof LayoutInvoicesIdRoute
+  '/invoices/create': typeof LayoutInvoicesCreateRoute
+  '/clients': typeof LayoutClientsIndexRoute
+  '/invoices': typeof LayoutInvoicesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
+  '/_layout': typeof LayoutRouteWithChildren
   '/about': typeof AboutRoute
-  '/_auth/_layout': typeof AuthLayoutRouteWithChildren
-  '/_auth/_layout/overview': typeof AuthLayoutOverviewRoute
-  '/_auth/_layout/settings': typeof AuthLayoutSettingsRoute
-  '/_auth/_layout/clients/$id': typeof AuthLayoutClientsIdRoute
-  '/_auth/_layout/clients/create': typeof AuthLayoutClientsCreateRoute
-  '/_auth/_layout/invoices/$id': typeof AuthLayoutInvoicesIdRoute
-  '/_auth/_layout/invoices/create': typeof AuthLayoutInvoicesCreateRoute
-  '/_auth/_layout/clients/': typeof AuthLayoutClientsIndexRoute
-  '/_auth/_layout/invoices/': typeof AuthLayoutInvoicesIndexRoute
+  '/_layout/overview': typeof LayoutOverviewRoute
+  '/_layout/settings': typeof LayoutSettingsRoute
+  '/_layout/clients/$id': typeof LayoutClientsIdRoute
+  '/_layout/clients/create': typeof LayoutClientsCreateRoute
+  '/_layout/invoices/$id': typeof LayoutInvoicesIdRoute
+  '/_layout/invoices/create': typeof LayoutInvoicesCreateRoute
+  '/_layout/clients/': typeof LayoutClientsIndexRoute
+  '/_layout/invoices/': typeof LayoutInvoicesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -299,29 +274,28 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/_auth'
+    | '/_layout'
     | '/about'
-    | '/_auth/_layout'
-    | '/_auth/_layout/overview'
-    | '/_auth/_layout/settings'
-    | '/_auth/_layout/clients/$id'
-    | '/_auth/_layout/clients/create'
-    | '/_auth/_layout/invoices/$id'
-    | '/_auth/_layout/invoices/create'
-    | '/_auth/_layout/clients/'
-    | '/_auth/_layout/invoices/'
+    | '/_layout/overview'
+    | '/_layout/settings'
+    | '/_layout/clients/$id'
+    | '/_layout/clients/create'
+    | '/_layout/invoices/$id'
+    | '/_layout/invoices/create'
+    | '/_layout/clients/'
+    | '/_layout/invoices/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
+  LayoutRoute: typeof LayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRoute: AuthRouteWithChildren,
+  LayoutRoute: LayoutRouteWithChildren,
   AboutRoute: AboutRoute,
 }
 
@@ -336,67 +310,60 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_auth",
+        "/_layout",
         "/about"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/_auth": {
-      "filePath": "_auth.tsx",
+    "/_layout": {
+      "filePath": "_layout.tsx",
       "children": [
-        "/_auth/_layout"
+        "/_layout/overview",
+        "/_layout/settings",
+        "/_layout/clients/$id",
+        "/_layout/clients/create",
+        "/_layout/invoices/$id",
+        "/_layout/invoices/create",
+        "/_layout/clients/",
+        "/_layout/invoices/"
       ]
     },
     "/about": {
       "filePath": "about.tsx"
     },
-    "/_auth/_layout": {
-      "filePath": "_auth/_layout.tsx",
-      "parent": "/_auth",
-      "children": [
-        "/_auth/_layout/overview",
-        "/_auth/_layout/settings",
-        "/_auth/_layout/clients/$id",
-        "/_auth/_layout/clients/create",
-        "/_auth/_layout/invoices/$id",
-        "/_auth/_layout/invoices/create",
-        "/_auth/_layout/clients/",
-        "/_auth/_layout/invoices/"
-      ]
+    "/_layout/overview": {
+      "filePath": "_layout/overview.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/overview": {
-      "filePath": "_auth/_layout/overview.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/settings": {
+      "filePath": "_layout/settings.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/settings": {
-      "filePath": "_auth/_layout/settings.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/clients/$id": {
+      "filePath": "_layout/clients.$id.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/clients/$id": {
-      "filePath": "_auth/_layout/clients.$id.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/clients/create": {
+      "filePath": "_layout/clients.create.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/clients/create": {
-      "filePath": "_auth/_layout/clients.create.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/invoices/$id": {
+      "filePath": "_layout/invoices.$id.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/invoices/$id": {
-      "filePath": "_auth/_layout/invoices.$id.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/invoices/create": {
+      "filePath": "_layout/invoices.create.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/invoices/create": {
-      "filePath": "_auth/_layout/invoices.create.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/clients/": {
+      "filePath": "_layout/clients.index.tsx",
+      "parent": "/_layout"
     },
-    "/_auth/_layout/clients/": {
-      "filePath": "_auth/_layout/clients.index.tsx",
-      "parent": "/_auth/_layout"
-    },
-    "/_auth/_layout/invoices/": {
-      "filePath": "_auth/_layout/invoices.index.tsx",
-      "parent": "/_auth/_layout"
+    "/_layout/invoices/": {
+      "filePath": "_layout/invoices.index.tsx",
+      "parent": "/_layout"
     }
   }
 }

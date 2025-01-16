@@ -1,23 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
 
-import CreateInvoiceForm from "@/components/invoice/CreateInvoiceForm";
-import { Box, Paper, Typography } from "@mui/material";
-import { clientsOptions } from "@/queries";
+import CreateInvoiceForm from '@/components/invoice/CreateInvoiceForm'
+import { Box, Paper, Typography } from '@mui/material'
+import { clientsOptions } from '@/queries'
 
-export const Route = createFileRoute("/_auth/_layout/invoices/create")({
+export const Route = createFileRoute('/_layout/invoices/create')({
   beforeLoad: () => ({
-    getTitle: () => "Create Invoice",
+    getTitle: () => 'Create Invoice',
   }),
   loader: ({ context }) => context.queryClient?.ensureQueryData(clientsOptions),
   component: CreateInvoice,
-});
+})
 
 function CreateInvoice() {
   return (
     <Box
       sx={{
         maxWidth: (theme) => theme.breakpoints.values.sm,
-        margin: "auto",
+        margin: 'auto',
       }}
     >
       <Paper sx={{ p: 4 }}>
@@ -31,5 +31,5 @@ function CreateInvoice() {
         <CreateInvoiceForm />
       </Paper>
     </Box>
-  );
+  )
 }

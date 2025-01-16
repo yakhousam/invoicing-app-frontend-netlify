@@ -1,6 +1,6 @@
 import { Invoice } from "@/validations";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { Box, Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import dayjs from "dayjs";
 import InvoiceByIdPdf from "./InvoicePdf";
@@ -24,11 +24,15 @@ const DownloadInvoiceBtn = (invoice: Invoice) => {
         }
         fileName={`${invoice.clientName}-${invoice.invoiceId}-${dayjs(invoice.invoiceDate).format("DD-MM-YYYY")}.pdf`}
       >
-        {({ loading }) => (
-          <Button variant="outlined" startIcon={<PictureAsPdfIcon />}>
-            {loading ? "Loading..." : "Download"}
-          </Button>
-        )}
+        {({ url }) =>
+          url ? (
+            <Button variant="outlined" startIcon={<PictureAsPdfIcon />}>
+              Download
+            </Button>
+          ) : (
+            <CircularProgress />
+          )
+        }
       </PDFDownloadLink>
     </Box>
   );

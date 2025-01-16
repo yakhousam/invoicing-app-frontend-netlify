@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { useAuth } from "react-oidc-context";
@@ -19,9 +19,8 @@ const Signature = () => {
   const auth = useAuth();
   const idToken = auth.user?.id_token as string;
 
-  const { data: userSignatureUrl, isLoading: isLoadingSignature } = useQuery(
-    userSignatureOptions(idToken)
-  );
+  const { data: userSignatureUrl, isLoading: isLoadingSignature } =
+    useSuspenseQuery(userSignatureOptions(idToken));
 
   const { enqueueSnackbar } = useSnackbar();
 

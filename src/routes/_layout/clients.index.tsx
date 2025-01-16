@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, Paper, Typography } from '@mui/material'
 import { Link as RouterLink, createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_auth/_layout/clients/')({
+export const Route = createFileRoute('/_layout/clients/')({
   beforeLoad: () => {
     return {
       getTitle: () => 'Clients',

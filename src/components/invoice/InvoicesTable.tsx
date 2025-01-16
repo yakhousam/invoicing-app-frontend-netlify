@@ -92,7 +92,6 @@ const InvoicesTable = () => {
       showSkeletons: isLoading,
       showAlertBanner: isError,
     },
-    rowCount: data?.count ?? 0,
     muiToolbarAlertBannerProps: isError
       ? {
           color: "error",

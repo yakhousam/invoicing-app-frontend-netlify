@@ -1,25 +1,25 @@
-import { Chart } from "@/components/dashboard/Chart";
-import DashboardTable from "@/components/dashboard/DashboardTable";
-import { Summary } from "@/components/dashboard/Summary";
-import { invoicesOptions } from "@/queries";
-import { Box, Grid2 as Grid, Paper, Typography } from "@mui/material";
-import { createFileRoute } from "@tanstack/react-router";
+import { Chart } from '@/components/dashboard/Chart'
+import DashboardTable from '@/components/dashboard/DashboardTable'
+import { Summary } from '@/components/dashboard/Summary'
+import { invoicesOptions } from '@/queries'
+import { Box, Grid2 as Grid, Paper, Typography } from '@mui/material'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute("/_auth/_layout/overview")({
+export const Route = createFileRoute('/_layout/overview')({
   beforeLoad: () => ({
-    getTitle: () => "Overview",
+    getTitle: () => 'Overview',
   }),
   loader: ({ context }) =>
     context.queryClient?.ensureQueryData(invoicesOptions),
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   return (
     <Box
       sx={{
         maxWidth: (theme) => theme.breakpoints.values.lg,
-        mx: "auto",
+        mx: 'auto',
         mt: 4,
       }}
     >
@@ -42,5 +42,5 @@ function RouteComponent() {
         </Paper>
       </Box>
     </Box>
-  );
+  )
 }
