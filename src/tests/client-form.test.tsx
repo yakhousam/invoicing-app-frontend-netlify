@@ -4,14 +4,10 @@ import ClientForm from "@/components/client/ClientForm";
 import { Wrapper } from "./utils/wrappers";
 import userEvent from "@testing-library/user-event";
 import { generateClient } from "./utils/generate";
-
-global.fetch = vi.fn();
+import { http, HttpResponse, server } from "./utils/node";
+import * as config from "@/config";
 
 describe("ClientForm", () => {
-  afterAll(() => {
-    vi.restoreAllMocks();
-  });
-
   it("renders a form", () => {
     render(<ClientForm />, { wrapper: Wrapper });
     expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
@@ -26,17 +22,11 @@ describe("ClientForm", () => {
     });
     const client = generateClient();
     const { clientName, email, address } = client;
-    (fetch as Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => client,
-    });
 
     await userEvent.type(screen.getByLabelText(/name/i), clientName);
     await userEvent.type(screen.getByLabelText(/email/i), email);
     await userEvent.type(screen.getByLabelText(/address/i), address);
     await userEvent.click(screen.getByRole("button", { name: /create/i }));
-
-    expect(fetch).toHaveBeenCalledTimes(1);
 
     // check that the user sees a success message
     await waitFor(() => {
@@ -50,14 +40,16 @@ describe("ClientForm", () => {
   });
 
   it("shows an error message when the request fails", async () => {
+    server.use(
+      http.post(config.clientsUrl, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
     render(<ClientForm />, {
       wrapper: Wrapper,
     });
     const client = generateClient();
     const { clientName, email, address } = client;
-    (fetch as Mock).mockResolvedValueOnce(
-      new Response("Internal server error", { status: 500 })
-    );
 
     await userEvent.type(screen.getByLabelText(/name/i), clientName);
     await userEvent.type(screen.getByLabelText(/email/i), email);
@@ -72,14 +64,16 @@ describe("ClientForm", () => {
   });
 
   it("shows an error message when email is duplicated", async () => {
+    server.use(
+      http.post(config.clientsUrl, () => {
+        return new HttpResponse("email already exists", { status: 409 });
+      })
+    );
     render(<ClientForm />, {
       wrapper: Wrapper,
     });
     const client = generateClient();
     const { clientName, email, address } = client;
-    (fetch as Mock).mockResolvedValueOnce(
-      new Response("email already exists", { status: 409 })
-    );
 
     await userEvent.type(screen.getByLabelText(/name/i), clientName);
     await userEvent.type(screen.getByLabelText(/email/i), email);
@@ -90,14 +84,16 @@ describe("ClientForm", () => {
   });
 
   it("shows an error message when client name is duplicated", async () => {
+    server.use(
+      http.post(config.clientsUrl, () => {
+        return new HttpResponse("client name already exists", { status: 409 });
+      })
+    );
     render(<ClientForm />, {
       wrapper: Wrapper,
     });
     const client = generateClient();
     const { clientName, email, address } = client;
-    (fetch as Mock).mockResolvedValueOnce(
-      new Response("client name already exists", { status: 409 })
-    );
 
     await userEvent.type(screen.getByLabelText(/name/i), clientName);
     await userEvent.type(screen.getByLabelText(/email/i), email);
