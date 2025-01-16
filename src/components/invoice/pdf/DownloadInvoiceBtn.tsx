@@ -10,9 +10,12 @@ import { userSignatureOptions } from "@/queries";
 
 const DownloadInvoiceBtn = (invoice: Invoice) => {
   const auth = useAuth();
-  const { data: userSignatureUrl } = useQuery(
-    userSignatureOptions(auth.user?.id_token as string)
-  );
+  const {
+    data: userSignatureUrl,
+    isFetched,
+    isLoading,
+  } = useQuery(userSignatureOptions(auth.user?.id_token as string));
+  console.log(isLoading, isFetched);
   return (
     <Box display="flex" justifyContent="flex-end">
       <PDFDownloadLink
@@ -25,7 +28,7 @@ const DownloadInvoiceBtn = (invoice: Invoice) => {
         fileName={`${invoice.clientName}-${invoice.invoiceId}-${dayjs(invoice.invoiceDate).format("DD-MM-YYYY")}.pdf`}
       >
         {({ url }) =>
-          url ? (
+          isFetched && url ? (
             <Button variant="outlined" startIcon={<PictureAsPdfIcon />}>
               Download
             </Button>

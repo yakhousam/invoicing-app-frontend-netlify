@@ -1,33 +1,21 @@
-class FetchClient {
-  token: string | null = null;
-  static instance: FetchClient;
+let token: string | null = null;
 
-  constructor() {
-    if (FetchClient.instance) {
-      return FetchClient.instance;
-    }
-
-    this.token = null;
-    FetchClient.instance = this;
-  }
-
-  setToken(token: string) {
-    this.token = token;
-  }
-
-  fetch(url: string, options: RequestInit | undefined = {}) {
-    const headers = {
-      ...options.headers,
-      Authorization: this.token ? `Bearer ${this.token}` : "",
-      "Content-Type": "application/json",
-    };
-
-    return fetch(url, {
-      ...options,
-      headers,
-    });
-  }
+export function setToken(newToken: string) {
+  token = newToken;
 }
 
-const fetchClient = new FetchClient();
-export default fetchClient;
+export function fetchWithToken(
+  url: string,
+  options: RequestInit | undefined = {}
+) {
+  const headers = {
+    ...options.headers,
+    Authorization: token ? `Bearer ${token}` : "",
+    "Content-Type": "application/json",
+  };
+
+  return fetch(url, {
+    ...options,
+    headers,
+  });
+}

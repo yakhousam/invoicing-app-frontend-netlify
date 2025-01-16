@@ -1,4 +1,4 @@
-import fetchClient from "@/utils/fetchClient";
+import { fetchWithToken } from "@/utils/fetchClient";
 import { clientSchema, type Client } from "@/validations";
 import * as config from "@/config";
 
@@ -6,7 +6,7 @@ export default async function getAll(): Promise<{
   clients: Client[];
   count: number;
 }> {
-  const response = await fetchClient.fetch(config.clientsUrl);
+  const response = await fetchWithToken(config.clientsUrl);
   if (response.status === 404) {
     return {
       clients: [],

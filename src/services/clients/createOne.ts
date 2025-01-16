@@ -1,10 +1,10 @@
-import fetchClient from "@/utils/fetchClient";
+import { fetchWithToken } from "@/utils/fetchClient";
 import { type CreateClient, clientSchema } from "@/validations";
 
 const clientsURL = import.meta.env?.VITE_APP_CLIENTS_URL;
 
 export default async function createOne(clientData: CreateClient) {
-  const res = await fetchClient.fetch(clientsURL, {
+  const res = await fetchWithToken(clientsURL, {
     method: "POST",
 
     body: JSON.stringify(clientData),

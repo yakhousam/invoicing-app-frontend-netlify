@@ -1,10 +1,10 @@
-import fetchClient from "@/utils/fetchClient";
+import { fetchWithToken } from "@/utils/fetchClient";
 import { type Invoice, invoiceSchema } from "@/validations";
 
 const invoicesURL = import.meta.env?.VITE_APP_INVOICES_URL;
 
 export default async function getById(id: string) {
-  const response = await fetchClient.fetch(`${invoicesURL}/${id}`);
+  const response = await fetchWithToken(`${invoicesURL}/${id}`);
 
   if (response.status === 404) {
     return {} as Invoice;

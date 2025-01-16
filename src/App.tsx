@@ -1,5 +1,5 @@
 import { useAuth } from "react-oidc-context";
-import fetchClient from "./utils/fetchClient";
+import { setToken } from "./utils/fetchClient";
 import { Router, RouterProvider } from "@tanstack/react-router";
 import { Box, CircularProgress } from "@mui/material";
 
@@ -23,7 +23,7 @@ const App = ({ router }: { router: Router<any, any, any> }) => {
   }
   // Set the token on the fetchClient
   if (auth.user?.access_token) {
-    fetchClient.setToken(auth.user?.access_token as string);
+    setToken(auth.user?.access_token as string);
     return <RouterProvider router={router} context={{ auth }} />;
   }
   auth.signinRedirect();
