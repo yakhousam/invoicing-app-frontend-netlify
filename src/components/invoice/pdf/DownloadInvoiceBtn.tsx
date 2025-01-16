@@ -15,7 +15,6 @@ const DownloadInvoiceBtn = (invoice: Invoice) => {
     isFetched,
     isLoading,
   } = useQuery(userSignatureOptions(auth.user?.id_token as string));
-  console.log(isLoading, isFetched);
   return (
     <Box display="flex" justifyContent="flex-end">
       <PDFDownloadLink
