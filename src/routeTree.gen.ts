@@ -8,14 +8,13 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthLayoutImport } from './routes/_auth/_layout'
 import { Route as AuthLayoutSettingsImport } from './routes/_auth/_layout/settings'
 import { Route as AuthLayoutOverviewImport } from './routes/_auth/_layout/overview'
 import { Route as AuthLayoutInvoicesIndexImport } from './routes/_auth/_layout/invoices.index'
@@ -24,10 +23,6 @@ import { Route as AuthLayoutInvoicesCreateImport } from './routes/_auth/_layout/
 import { Route as AuthLayoutInvoicesIdImport } from './routes/_auth/_layout/invoices.$id'
 import { Route as AuthLayoutClientsCreateImport } from './routes/_auth/_layout/clients.create'
 import { Route as AuthLayoutClientsIdImport } from './routes/_auth/_layout/clients.$id'
-
-// Create Virtual Routes
-
-const AuthLayoutLazyImport = createFileRoute('/_auth/_layout')()
 
 // Create/Update Routes
 
@@ -48,57 +43,57 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthLayoutLazyRoute = AuthLayoutLazyImport.update({
+const AuthLayoutRoute = AuthLayoutImport.update({
   id: '/_layout',
   getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./routes/_auth/_layout.lazy').then((d) => d.Route))
+} as any)
 
 const AuthLayoutSettingsRoute = AuthLayoutSettingsImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutOverviewRoute = AuthLayoutOverviewImport.update({
   id: '/overview',
   path: '/overview',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutInvoicesIndexRoute = AuthLayoutInvoicesIndexImport.update({
   id: '/invoices/',
   path: '/invoices/',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutClientsIndexRoute = AuthLayoutClientsIndexImport.update({
   id: '/clients/',
   path: '/clients/',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutInvoicesCreateRoute = AuthLayoutInvoicesCreateImport.update({
   id: '/invoices/create',
   path: '/invoices/create',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutInvoicesIdRoute = AuthLayoutInvoicesIdImport.update({
   id: '/invoices/$id',
   path: '/invoices/$id',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutClientsCreateRoute = AuthLayoutClientsCreateImport.update({
   id: '/clients/create',
   path: '/clients/create',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 const AuthLayoutClientsIdRoute = AuthLayoutClientsIdImport.update({
   id: '/clients/$id',
   path: '/clients/$id',
-  getParentRoute: () => AuthLayoutLazyRoute,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -130,7 +125,7 @@ declare module '@tanstack/react-router' {
       id: '/_auth/_layout'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthLayoutLazyImport
+      preLoaderRoute: typeof AuthLayoutImport
       parentRoute: typeof AuthImport
     }
     '/_auth/_layout/overview': {
@@ -138,63 +133,63 @@ declare module '@tanstack/react-router' {
       path: '/overview'
       fullPath: '/overview'
       preLoaderRoute: typeof AuthLayoutOverviewImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/settings': {
       id: '/_auth/_layout/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AuthLayoutSettingsImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/clients/$id': {
       id: '/_auth/_layout/clients/$id'
       path: '/clients/$id'
       fullPath: '/clients/$id'
       preLoaderRoute: typeof AuthLayoutClientsIdImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/clients/create': {
       id: '/_auth/_layout/clients/create'
       path: '/clients/create'
       fullPath: '/clients/create'
       preLoaderRoute: typeof AuthLayoutClientsCreateImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/invoices/$id': {
       id: '/_auth/_layout/invoices/$id'
       path: '/invoices/$id'
       fullPath: '/invoices/$id'
       preLoaderRoute: typeof AuthLayoutInvoicesIdImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/invoices/create': {
       id: '/_auth/_layout/invoices/create'
       path: '/invoices/create'
       fullPath: '/invoices/create'
       preLoaderRoute: typeof AuthLayoutInvoicesCreateImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/clients/': {
       id: '/_auth/_layout/clients/'
       path: '/clients'
       fullPath: '/clients'
       preLoaderRoute: typeof AuthLayoutClientsIndexImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
     '/_auth/_layout/invoices/': {
       id: '/_auth/_layout/invoices/'
       path: '/invoices'
       fullPath: '/invoices'
       preLoaderRoute: typeof AuthLayoutInvoicesIndexImport
-      parentRoute: typeof AuthLayoutLazyImport
+      parentRoute: typeof AuthLayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthLayoutLazyRouteChildren {
+interface AuthLayoutRouteChildren {
   AuthLayoutOverviewRoute: typeof AuthLayoutOverviewRoute
   AuthLayoutSettingsRoute: typeof AuthLayoutSettingsRoute
   AuthLayoutClientsIdRoute: typeof AuthLayoutClientsIdRoute
@@ -205,7 +200,7 @@ interface AuthLayoutLazyRouteChildren {
   AuthLayoutInvoicesIndexRoute: typeof AuthLayoutInvoicesIndexRoute
 }
 
-const AuthLayoutLazyRouteChildren: AuthLayoutLazyRouteChildren = {
+const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
   AuthLayoutOverviewRoute: AuthLayoutOverviewRoute,
   AuthLayoutSettingsRoute: AuthLayoutSettingsRoute,
   AuthLayoutClientsIdRoute: AuthLayoutClientsIdRoute,
@@ -216,23 +211,23 @@ const AuthLayoutLazyRouteChildren: AuthLayoutLazyRouteChildren = {
   AuthLayoutInvoicesIndexRoute: AuthLayoutInvoicesIndexRoute,
 }
 
-const AuthLayoutLazyRouteWithChildren = AuthLayoutLazyRoute._addFileChildren(
-  AuthLayoutLazyRouteChildren,
+const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
+  AuthLayoutRouteChildren,
 )
 
 interface AuthRouteChildren {
-  AuthLayoutLazyRoute: typeof AuthLayoutLazyRouteWithChildren
+  AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthLayoutLazyRoute: AuthLayoutLazyRouteWithChildren,
+  AuthLayoutRoute: AuthLayoutRouteWithChildren,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthLayoutLazyRouteWithChildren
+  '': typeof AuthLayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/overview': typeof AuthLayoutOverviewRoute
   '/settings': typeof AuthLayoutSettingsRoute
@@ -246,7 +241,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthLayoutLazyRouteWithChildren
+  '': typeof AuthLayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/overview': typeof AuthLayoutOverviewRoute
   '/settings': typeof AuthLayoutSettingsRoute
@@ -263,7 +258,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/about': typeof AboutRoute
-  '/_auth/_layout': typeof AuthLayoutLazyRouteWithChildren
+  '/_auth/_layout': typeof AuthLayoutRouteWithChildren
   '/_auth/_layout/overview': typeof AuthLayoutOverviewRoute
   '/_auth/_layout/settings': typeof AuthLayoutSettingsRoute
   '/_auth/_layout/clients/$id': typeof AuthLayoutClientsIdRoute
@@ -358,7 +353,7 @@ export const routeTree = rootRoute
       "filePath": "about.tsx"
     },
     "/_auth/_layout": {
-      "filePath": "_auth/_layout.lazy.tsx",
+      "filePath": "_auth/_layout.tsx",
       "parent": "/_auth",
       "children": [
         "/_auth/_layout/overview",
