@@ -43,7 +43,7 @@ const EditInvoiceForm = ({
 }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
-  const { id } = useParams({ from: "/_auth/_layout/invoices/$id" });
+  const { id } = useParams({ from: "/_layout/invoices/$id" });
   const options = invoiceByIdOptions(id);
 
   const queryClient = useQueryClient();
