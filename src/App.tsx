@@ -10,8 +10,8 @@ const App = ({ router }: { router: Router<any, any, any> }) => {
       <Box
         display="flex"
         justifyContent="center"
-        alignItems="center"
-        height="100vh"
+        alignItems="flex-end"
+        height="50vh"
       >
         <CircularProgress />
       </Box>
