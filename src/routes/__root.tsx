@@ -1,5 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router";
 import React, { Suspense } from "react";
 import { type AuthContextProps } from "react-oidc-context";
 
@@ -22,6 +26,11 @@ const TanStackRouterDevtools =
       );
 
 export const Route = createRootRouteWithContext<RouteContext>()({
+  beforeLoad: () => {
+    if (window.location.pathname === "/login") {
+      throw redirect({ to: "/overview" });
+    }
+  },
   component: () => (
     <>
       <Outlet />

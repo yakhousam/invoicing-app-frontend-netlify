@@ -1,32 +1,32 @@
-import AppBar from '@/components/AppBar'
-import AppBarMenu from '@/components/AppBarMenu'
-import Breadcrumbs from '@/components/Breadcrumbs'
-import Drawer, { DrawerHeader } from '@/components/Drawer'
-import DrawerNavigation from '@/components/DrawerNavigation'
+import AppBar from "@/components/AppBar";
+import AppBarMenu from "@/components/AppBarMenu";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Drawer, { DrawerHeader } from "@/components/Drawer";
+import DrawerNavigation from "@/components/DrawerNavigation";
 
-import { Box, CssBaseline } from '@mui/material'
-import { Outlet, createFileRoute } from '@tanstack/react-router'
-import React from 'react'
+import { Box, CssBaseline } from "@mui/material";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
+import React from "react";
 
-export const Route = createFileRoute('/_layout')({
+export const Route = createFileRoute("/_layout")({
   component: Layout,
-})
+});
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 function Layout() {
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleDrawerClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         handleDrawerOpen={handleDrawerOpen}
@@ -50,5 +50,5 @@ function Layout() {
         <Outlet />
       </Box>
     </Box>
-  )
+  );
 }
