@@ -1,3 +1,4 @@
+import { WebStorageStateStore } from "oidc-client-ts";
 import { AuthProviderProps } from "react-oidc-context";
 
 // COGNITO
@@ -24,6 +25,7 @@ export const cognitoAuthConfig: AuthProviderProps = {
   redirect_uri: redirectUri,
   response_type: responeType,
   scope,
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
   onSigninCallback() {
     window.history.replaceState({}, document.title, window.location.pathname);
   },
