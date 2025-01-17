@@ -30,6 +30,7 @@ body {
 
 header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
@@ -53,6 +54,7 @@ header {
     display: flex;
     gap: 2rem;
     align-items: center;
+    margin-left: auto;
 }
 
 .nav-link {
@@ -159,7 +161,5 @@ h1 {
         height: 50%;
     }
 
-    .nav-links {
-        display: none;
-    }
+    
 }
