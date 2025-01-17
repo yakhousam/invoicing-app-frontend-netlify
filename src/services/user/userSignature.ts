@@ -26,9 +26,9 @@ export const getSignature = async (idToken: string) => {
   const command = new GetObjectCommand({
     Bucket: config.bucket,
     Key: `cognito/invoicing-app/${identityId}/signature.png`,
+    ResponseCacheControl: "max-age=3600",
   });
 
   const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-  console.log("get signature url", url);
   return url;
 };
