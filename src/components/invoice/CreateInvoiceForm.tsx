@@ -31,14 +31,14 @@ const currencies: Array<Invoice["currency"]> = ["USD", "EUR", "GBP"];
 
 function CreateInvoiceForm() {
   const auth = useAuth();
-  const { data: user } = useSuspenseQuery(
-    getUserOptions(auth.user?.access_token as string)
-  );
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { data } = useSuspenseQuery(clientsOptions);
-  const clients = data?.clients;
+  const { data: user } = useSuspenseQuery(
+    getUserOptions(auth.user?.access_token as string)
+  );
+  const { data: clientData } = useSuspenseQuery(clientsOptions);
+  const clients = clientData?.clients;
 
   const mutation = useMutation({
     mutationFn: (data: CreateInvoice) => {
