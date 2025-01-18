@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
-import { afterAll, afterEach, beforeAll, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, vi, beforeEach } from "vitest";
 import { server } from "./src/tests/utils/node";
+import { queryClient } from "@/tests/utils/wrappers";
 
 vi.mock("react-oidc-context", () => ({
   useAuth() {
@@ -17,6 +18,11 @@ vi.mock("react-oidc-context", () => ({
 }));
 
 beforeAll(() => server.listen());
+
+beforeEach(() => {
+  queryClient.clear();
+});
+
 afterEach(() => {
   cleanup();
   server.resetHandlers();
