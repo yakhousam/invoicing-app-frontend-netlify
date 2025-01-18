@@ -1,29 +1,21 @@
-import { cognitoAuthConfig } from "@/config";
-import { routeTree } from "@/routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  RouterProvider,
-  RoutesByPath,
-  createMemoryHistory,
-  createRootRoute,
-  createRoute,
-  createRouter,
-} from "@tanstack/react-router";
-import { render } from "@testing-library/react";
 import { SnackbarProvider } from "notistack";
-import { ReactNode } from "react";
-import { AuthProvider } from "react-oidc-context";
 
-type RouterPath = keyof RoutesByPath<typeof routeTree>;
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false, // Disable retries
+    },
+  },
+});
 
-const queryClient = new QueryClient();
-
-export const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <QueryClientProvider client={queryClient}>
-    <SnackbarProvider>{children}</SnackbarProvider>
-  </QueryClientProvider>
-);
+export const Wrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SnackbarProvider>{children}</SnackbarProvider>
+    </QueryClientProvider>
+  );
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
 // export const renderWithRouterContext = ({
