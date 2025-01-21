@@ -10,7 +10,7 @@ export const uploadSignature = async (signature: File, idToken: string) => {
 
   const command = new PutObjectCommand({
     Bucket: config.bucket,
-    Key: `cognito/invoicing-app/${identityId}/signature.png`,
+    Key: `cognito/invoicing-app-v2/${identityId}/signature.png`,
     Body: signature,
     ContentType: signature.type,
   });
@@ -25,7 +25,7 @@ export const getSignature = async (idToken: string) => {
 
   const command = new GetObjectCommand({
     Bucket: config.bucket,
-    Key: `cognito/invoicing-app/${identityId}/signature.png`,
+    Key: `cognito/invoicing-app-v2/${identityId}/signature.png`,
     ResponseCacheControl: "max-age=3600",
   });
 
