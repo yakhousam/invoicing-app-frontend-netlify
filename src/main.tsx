@@ -7,8 +7,37 @@ import App from "./App";
 import { Spinner } from "./components/spinner";
 import { cognitoAuthConfig } from "./config";
 import { routeTree } from "./routeTree.gen";
-import * as config from "@/config";
-console.log("config =", config);
+import {
+  authority,
+  bucket,
+  clientId,
+  clientsUrl,
+  domain,
+  identityPoolId,
+  idpEndpoint,
+  invoicesUrl,
+  redirectUri,
+  region,
+  responeType,
+  scope,
+  singoutUri,
+} from "@/config";
+console.log({
+  authority,
+  bucket,
+  clientId,
+  clientsUrl,
+  cognitoAuthConfig,
+  domain,
+  identityPoolId,
+  idpEndpoint,
+  invoicesUrl,
+  redirectUri,
+  region,
+  responeType,
+  scope,
+  singoutUri,
+});
 
 const queryClient = new QueryClient();
 
