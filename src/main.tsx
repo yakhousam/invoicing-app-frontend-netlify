@@ -7,6 +7,8 @@ import App from "./App";
 import { Spinner } from "./components/spinner";
 import { cognitoAuthConfig } from "./config";
 import { routeTree } from "./routeTree.gen";
+import * as config from "@/config";
+console.log("config =", config);
 
 const queryClient = new QueryClient();
 
