@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",
+    "@playwright/test": "^1.49.1",
     "@tanstack/router-plugin": "^1.95.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
