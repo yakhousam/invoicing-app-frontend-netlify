@@ -5,10 +5,7 @@ import {
   generateClients,
   generateInvoice,
   generateInvoices,
-  generateUser,
 } from "./generate";
-
-const cognitoUrl = " https://cognito-idp.us-east-1.amazonaws.com";
 
 const clientHandlers = [
   http.post(config.clientsUrl, () => {
@@ -30,21 +27,4 @@ const invoiceHandlers = [
   }),
 ];
 
-// const userHandlers = [
-//   http.post(cognitoUrl, async () => {
-//     return HttpResponse.json({
-//       AuthenticationResult: {
-//         AccessToken: "mock-access-token",
-//         IdToken: "mock-id-token",
-//         RefreshToken: "mock-refresh-token",
-//         ExpiresIn: 3600,
-//       },
-//     });
-//   }),
-// ];
-
-export const handlers = [
-  ...clientHandlers,
-  ...invoiceHandlers,
-  // ...userHandlers,
-];
+export const handlers = [...clientHandlers, ...invoiceHandlers];

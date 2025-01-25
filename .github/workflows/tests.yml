@@ -17,6 +17,9 @@ jobs:
         run: npm ci
       - name: Run unit and integration tests
         run: npm run test
+        env:
+          VITE_APP_INVOICES_URL: "http://localhost:3002"
+          VITE_APP_CLIENTS_URL: "http://localhost:3003"
       - name: Build the app
         run: npm run build
       - name: Install Playwright Browsers
