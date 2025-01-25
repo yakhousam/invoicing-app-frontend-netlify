@@ -18,8 +18,8 @@ jobs:
       - name: Run unit and integration tests
         run: npm run test
         env:
-          VITE_APP_INVOICES_URL: "http://localhost:3002"
-          VITE_APP_CLIENTS_URL: "http://localhost:3003"
+          VITE_APP_INVOICES_URL: ${{ secrets.INVOICES_URL }}
+          VITE_APP_CLIENTS_URL: ${{ secrets.CLIENTS_URL }}
       - name: Build the app
         run: npm run build
       - name: Install Playwright Browsers
@@ -32,6 +32,10 @@ jobs:
           VITE_APP_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
           VITE_APP_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
           VITE_APP_COGNITO_AUTHORITY: ${{ secrets.COGNITO_AUTHORITY }}
+          VITE_APP_INVOICES_URL: ${{ secrets.INVOICES_URL }}
+          VITE_APP_CLIENTS_URL: ${{ secrets.CLIENTS_URL }}
+          VITE_APP_AWS_REGION: ${{ secrets.AWS_REGION }}
+          VITE_APP_S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

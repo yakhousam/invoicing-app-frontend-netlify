@@ -90,5 +90,11 @@ export default defineConfig({
     command: "npm run dev",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
+    env: {
+      VITE_APP_INVOICES_URL: process.env.VITE_APP_INVOICES_URL!,
+      VITE_APP_CLIENTS_URL: process.env.VITE_APP_CLIENTS_URL!,
+      VITE_APP_AWS_REGION: process.env.VITE_APP_AWS_REGION!,
+      VITE_APP_S3_BUCKET_NAME: process.env.VITE_APP_S3_BUCKET_NAME!,
+    },
   },
 });
