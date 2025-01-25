@@ -35,7 +35,7 @@ function ClientForm() {
       queryClient.setQueryData(clientsOptions.queryKey, (oldData) => {
         if (oldData) {
           return {
-            clients: [...oldData.clients, data],
+            clients: [data, ...oldData.clients],
             count: oldData.count + 1,
           };
         }
