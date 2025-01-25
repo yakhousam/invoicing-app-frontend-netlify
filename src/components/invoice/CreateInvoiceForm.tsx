@@ -53,7 +53,7 @@ function CreateInvoiceForm() {
       queryClient.setQueryData(invoicesOptions.queryKey, (oldData) => {
         if (oldData) {
           return {
-            invoices: [...oldData.invoices, data],
+            invoices: [data, ...oldData.invoices],
             count: oldData.count + 1,
           };
         }

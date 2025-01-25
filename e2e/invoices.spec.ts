@@ -2,12 +2,9 @@ import { generateInvoice } from "@/tests/utils/generate";
 import { expect, test } from "@playwright/test";
 import dayjs from "dayjs";
 
-// test.describe.configure({ mode: "serial" });
-
-test.describe("overview page", () => {
-  const invoice = generateInvoice();
-
+test.describe("invoices page", () => {
   test("should create an invoice", async ({ page }) => {
+    const newInvoice = generateInvoice();
     await page.goto("/invoices");
     await page.waitForLoadState("networkidle");
     await expect(
@@ -26,26 +23,26 @@ test.describe("overview page", () => {
 
     await page
       .getByLabel(/invoice due days/i)
-      .fill(invoice.invoiceDueDays.toString());
+      .fill(newInvoice.invoiceDueDays.toString());
     await page
       .getByLabel(/invoice date/i)
-      .fill(dayjs(invoice.invoiceDate).format("YYYY-MM-DD"));
+      .fill(dayjs(newInvoice.invoiceDate).format("YYYY-MM-DD"));
     // Select client
     await page.getByLabel(/client/i).click();
     const options = await page.getByRole("option").all();
     const randomClientIndex = Math.floor(Math.random() * options.length);
     await options[randomClientIndex].click(); // Select the first client
     // selct the currency
-    if (invoice.currency !== "EUR") {
+    if (newInvoice.currency !== "EUR") {
       await page.getByLabel(/currency/i).click();
-      await page.getByText(invoice.currency).click();
+      await page.getByText(newInvoice.currency).click();
     }
 
     await page
       .getByLabel(/tax percentage/i)
-      .fill(invoice.taxPercentage.toString());
-    for (let i = 0; i < invoice.items.length; i++) {
-      const item = invoice.items[i];
+      .fill(newInvoice.taxPercentage.toString());
+    for (let i = 0; i < newInvoice.items.length; i++) {
+      const item = newInvoice.items[i];
       await page
         .getByLabel(/description/i)
         .nth(i)
@@ -55,7 +52,7 @@ test.describe("overview page", () => {
         .nth(i)
         .fill(item.itemQuantity.toString());
       await page.getByLabel(/price/i).nth(i).fill(item.itemPrice.toString());
-      if (i < invoice.items.length - 1) {
+      if (i < newInvoice.items.length - 1) {
         await page.getByRole("button", { name: /add item/i }).click();
       }
     }
@@ -72,5 +69,25 @@ test.describe("overview page", () => {
       .textContent()) as string;
     const totalInvoicesAfter = parseInt(tablePaginationAfter.split("of ")[1]);
     expect(totalInvoicesAfter).toBe(totalInvoices + 1);
+  });
+
+  test('should set the invoice status to "paid"', async ({ page }) => {
+    await page.goto("/invoices");
+    await page.waitForLoadState("networkidle");
+    await page.getByRole("table").getByRole("row").nth(1).click();
+    await page.getByRole("checkbox", { name: /paid/i }).check();
+    await page.getByRole("button", { name: /save/i }).click();
+
+    await expect(page.getByRole("alert")).toHaveText(/invoice updated/i);
+  });
+
+  test("should delete an invoice", async ({ page }) => {
+    await page.goto("/invoices");
+    await page.waitForLoadState("networkidle");
+    await page.getByRole("table").getByRole("row").nth(1).click();
+    await page.getByRole("button", { name: /delete/i }).click();
+    await page.waitForTimeout(500);
+    await page.getByRole("button", { name: /delete/i }).click();
+    await expect(page.getByRole("alert")).toHaveText(/invoice deleted/i);
   });
 });
