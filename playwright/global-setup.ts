@@ -11,8 +11,12 @@ const authKey = `oidc.user:${process.env.VITE_APP_COGNITO_AUTHORITY}:${process.e
 // Autheticate once and save the session state to a file. the tests will use this file to authenticate
 // This is useful when you want to run the tests multiple times without having to authenticate each time
 async function globalSetup(config: FullConfig) {
+  console.log("running global setup.............................");
+  console.log("authkey", authKey);
   const browser = await chromium.launch();
   const { baseURL, storageState } = config.projects[0].use;
+  console.log("baseURL", baseURL);
+  console.log("storageState", storageState);
   const context = await browser.newContext({
     storageState: undefined,
   });
