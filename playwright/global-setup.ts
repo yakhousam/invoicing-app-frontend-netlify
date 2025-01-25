@@ -18,20 +18,29 @@ async function globalSetup(config: FullConfig) {
   });
   const page = await context.newPage();
 
-  // Authenticate with Cognito
-  const authValue = await cognitoAuthenticate();
+  try {
+    await context.tracing.start({ screenshots: true, snapshots: true });
+    // Authenticate with Cognito
+    const authValue = await cognitoAuthenticate();
 
-  await page.goto(baseURL!);
-  await page.evaluate(
-    ({ authKey, authValue }) => {
-      localStorage.setItem(authKey, JSON.stringify(authValue));
-    },
-    { authKey, authValue }
-  );
-  // Save storage state
-  await context.storageState({ path: storageState as string });
+    await page.goto(baseURL!);
+    await page.evaluate(
+      ({ authKey, authValue }) => {
+        localStorage.setItem(authKey, JSON.stringify(authValue));
+      },
+      { authKey, authValue }
+    );
+    // Save storage state
+    await context.storageState({ path: storageState as string });
 
-  await browser.close();
+    await browser.close();
+  } catch (error) {
+    await context.tracing.stop({
+      path: "./test-results/failed-setup-trace.zip",
+    });
+    await browser.close();
+    throw error;
+  }
 }
 
 export default globalSetup;
