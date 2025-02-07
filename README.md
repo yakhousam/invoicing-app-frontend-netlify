@@ -48,11 +48,11 @@ This project is the frontend component of the Invoicing App, a microservices-bas
 
 1. Start the development server:
     ```bash
-    npm start
+    npm run dev
     ```
     or
     ```bash
-    yarn start
+    yarn run dev
     ```
 2. Open your browser and navigate to `http://localhost:3001`.
 
