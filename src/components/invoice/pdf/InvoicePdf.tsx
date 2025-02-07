@@ -225,7 +225,10 @@ const InvoicePdf = ({
                 marginTop: 20,
               }}
             >
-              <Image style={{ maxWidth: 200 }} src={userSignatureUrl} />
+              <Image
+                style={{ maxWidth: 200, maxHeight: 200 }}
+                src={userSignatureUrl}
+              />
             </View>
           )}
           <View

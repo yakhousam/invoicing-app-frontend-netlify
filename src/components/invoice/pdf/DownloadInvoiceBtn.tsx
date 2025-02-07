@@ -10,11 +10,9 @@ import { userSignatureOptions } from "@/queries";
 
 const DownloadInvoiceBtn = (invoice: Invoice) => {
   const auth = useAuth();
-  const {
-    data: userSignatureUrl,
-    isFetched,
-    isLoading,
-  } = useQuery(userSignatureOptions(auth.user?.id_token as string));
+  const { data: userSignatureUrl, isFetched } = useQuery(
+    userSignatureOptions(auth.user?.id_token as string)
+  );
   return (
     <Box display="flex" justifyContent="flex-end">
       <PDFDownloadLink
