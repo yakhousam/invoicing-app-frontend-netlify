@@ -1,5 +1,5 @@
 import { fetchWithToken } from "@/utils/fetchClient";
-import { invoiceSchema } from "@/validations";
+import { getAllInvoicesResponse } from "@/validations";
 
 const invoicesURL = import.meta.env?.VITE_APP_INVOICES_URL;
 
@@ -19,7 +19,7 @@ export default async function getAl() {
 
   const data = await response.json();
   return {
-    invoices: invoiceSchema.array().parse(data.invoices),
+    invoices: getAllInvoicesResponse.parse(data.invoices),
     count: data.count as number,
   };
 }
