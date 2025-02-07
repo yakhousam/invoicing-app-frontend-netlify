@@ -21,11 +21,7 @@ function ClientForm() {
     },
     resolver: zodResolver(createClientSchema),
   });
-  const {
-    handleSubmit,
-    setError,
-    formState: { isSubmitting },
-  } = formMethods;
+  const { handleSubmit, setError } = formMethods;
 
   const mutation = useMutation({
     mutationFn: (data: CreateClient) => serviceClients.createOne(data),
@@ -106,10 +102,10 @@ function ClientForm() {
         <Box sx={{ mt: 6, display: "flex", justifyContent: "flex-end" }}>
           <LoadingButton
             type="submit"
-            loading={isSubmitting}
+            loading={mutation.isPending}
             variant="contained"
             color="primary"
-            disabled={isSubmitting}
+            disabled={mutation.isPending}
           >
             Create
           </LoadingButton>

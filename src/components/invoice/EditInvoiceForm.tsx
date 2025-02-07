@@ -114,7 +114,6 @@ const EditInvoiceForm = ({
 
   const onSubmit = (data: UpdateInvoice) => {
     updateInvoice({ id, data });
-    console.log(data);
   };
 
   const handleDeleteInvoice = () => {
@@ -251,7 +250,7 @@ const EditInvoiceForm = ({
               <LoadingButtonSave
                 type="submit"
                 loading={isPendingSaving}
-                disabled={!isDirty}
+                disabled={!isDirty || isPendingSaving}
               />
 
               <LoadingButtonDelete

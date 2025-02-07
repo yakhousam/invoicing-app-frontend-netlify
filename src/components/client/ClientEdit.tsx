@@ -32,7 +32,7 @@ const ClientEdit = () => {
     handleSubmit,
     reset,
     setError,
-    formState: { isSubmitting, isDirty },
+    formState: { isDirty },
   } = formMethods;
 
   const mutation = useMutation({
@@ -78,7 +78,6 @@ const ClientEdit = () => {
     }
     mutation.mutate(data);
   };
-  console.log("isSubmiting", isSubmitting);
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,8 +109,8 @@ const ClientEdit = () => {
           />
           <LoadingButtonSave
             type="submit"
-            loading={isSubmitting}
-            disabled={!isDirty || isSubmitting}
+            loading={mutation.isPending}
+            disabled={!isDirty || mutation.isPending}
             sx={{ alignSelf: "flex-end" }}
           />
         </Stack>

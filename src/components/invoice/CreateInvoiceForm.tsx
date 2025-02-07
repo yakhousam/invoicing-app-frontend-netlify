@@ -100,7 +100,7 @@ function CreateInvoiceForm() {
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = methods;
   const onSubmit = (data: CreateInvoice) => {
     if (mutation.isPending) {
@@ -305,8 +305,8 @@ function CreateInvoiceForm() {
             type="submit"
             variant="contained"
             sx={{ alignSelf: "flex-start" }}
-            loading={isSubmitting}
-            disabled={isSubmitting}
+            loading={mutation.isPending}
+            disabled={mutation.isPending}
           >
             Create invoice
           </LoadingButton>
