@@ -43,6 +43,10 @@ This project is the frontend component of the Invoicing App, a microservices-bas
     ```bash
     yarn install
     ```
+4. Rename `.env.example` to `.env` and fill in the environment variables:
+    ```bash
+    mv .env.example .env
+    ```
 
 ### Running the Application
 
@@ -71,3 +75,4 @@ This project is the frontend component of the Invoicing App, a microservices-bas
 ## License
 
 This project is licensed under the MIT License.
+
