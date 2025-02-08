@@ -1,7 +1,7 @@
 import { invoicesOptions } from "@/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { useMemo, createContext, useContext } from "react";
 
 export type ChartData = {
   date: {
@@ -13,19 +13,23 @@ export type ChartData = {
   unpaid: number;
 };
 
-function useChart() {
+const ChartContext = createContext<ChartData[] | null>(null);
+
+export function ChartProvider({ children }: { children: React.ReactNode }) {
   const { data: invoices } = useSuspenseQuery({
     ...invoicesOptions,
     select: (data) => data.invoices,
   });
 
   const data = useMemo(() => {
-    return invoices?.reduce<ChartData[]>((acc, invoice) => {
+    console.log("running useChart", invoices?.length);
+    console.time("chart");
+    const d = invoices?.reduce<ChartData[]>((acc, invoice) => {
       const month = dayjs(invoice.invoiceDate).month();
       const year = dayjs(invoice.invoiceDate).year();
       const total = invoice.totalAmount;
-      const paid = invoice.paid ? total : 0;
-      const unpaid = invoice.paid ? 0 : total;
+      const paid = invoice.status === "paid" ? total : 0;
+      const unpaid = invoice.status === "paid" ? 0 : total;
       const index = acc.findIndex(
         (summary) => summary.date.month === month && summary.date.year === year
       );
@@ -39,9 +43,17 @@ function useChart() {
 
       return acc;
     }, []);
+    console.timeEnd("chart");
+    return d;
   }, [invoices]);
-
-  return data;
+  return <ChartContext.Provider value={data}>{children}</ChartContext.Provider>;
 }
 
-export default useChart;
+export function useChart() {
+  const context = useContext(ChartContext);
+  if (!context) {
+    throw new Error("useChart must be used within a ChartProvider");
+  }
+
+  return context;
+}

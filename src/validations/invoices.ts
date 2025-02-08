@@ -102,3 +102,5 @@ export type Item = z.infer<typeof itemSchema>;
 export type CreateInvoice = z.input<typeof createInvoiceSchema>;
 
 export type UpdateInvoice = z.infer<typeof updateInvoiceSchema>;
+
+export type GetAllInvoicesResponse = z.infer<typeof getAllInvoicesResponse>;

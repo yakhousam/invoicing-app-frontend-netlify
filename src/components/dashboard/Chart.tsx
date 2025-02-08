@@ -1,4 +1,4 @@
-import useChart from "@/hooks/useChart";
+import { useChart } from "@/hooks/useChart";
 import { BarChart } from "@mui/x-charts/BarChart";
 import dayjs from "dayjs";
 

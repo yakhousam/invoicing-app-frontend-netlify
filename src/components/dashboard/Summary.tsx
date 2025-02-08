@@ -1,5 +1,5 @@
 import { formatCurrency } from "@/helpers";
-import useSummary from "@/hooks/useSummary";
+import { useSummary } from "@/hooks/useSummary";
 import { Divider, Stack, Typography } from "@mui/material";
 
 export const Summary = () => {

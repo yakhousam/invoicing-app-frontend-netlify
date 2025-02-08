@@ -1,6 +1,6 @@
 import { formatCurrency } from "@/helpers";
 import { invoicesOptions } from "@/queries";
-import { type Invoice } from "@/validations";
+import { GetAllInvoicesResponse, type Invoice } from "@/validations";
 import { Chip, Typography } from "@mui/material";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -17,7 +17,7 @@ const InvoicesTable = () => {
 
   const { data, isError, isLoading } = useSuspenseQuery(invoicesOptions);
 
-  const columns = useMemo<MRT_ColumnDef<Invoice>[]>(() => {
+  const columns = useMemo<MRT_ColumnDef<GetAllInvoicesResponse[0]>[]>(() => {
     return [
       {
         accessorKey: "invoiceId",
@@ -30,7 +30,6 @@ const InvoicesTable = () => {
         accessorFn(originalRow) {
           return originalRow.clientName;
         },
-        filterFn: "customFilterFn",
         enableSorting: false,
       },
       {
