@@ -3,6 +3,8 @@ import { setToken } from "./utils/fetchClient";
 import { Router, RouterProvider } from "@tanstack/react-router";
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
+import { ChartProvider } from "./hooks/useChart";
+import { SummaryProvider } from "./hooks/useSummary";
 
 const App = ({ router }: { router: Router<any, any, any> }) => {
   const auth = useAuth();
@@ -43,7 +45,13 @@ const App = ({ router }: { router: Router<any, any, any> }) => {
   if (auth.user?.access_token) {
     setToken(auth.user?.access_token as string);
   }
-  return <RouterProvider router={router} context={{ auth }} />;
+  return (
+    <ChartProvider>
+      <SummaryProvider>
+        <RouterProvider router={router} context={{ auth }} />
+      </SummaryProvider>
+    </ChartProvider>
+  );
 };
 
 export default App;

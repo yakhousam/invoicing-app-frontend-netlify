@@ -1,7 +1,7 @@
 import { invoicesOptions } from "@/queries";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useMemo, createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 
 export type ChartData = {
   date: {
@@ -13,18 +13,18 @@ export type ChartData = {
   unpaid: number;
 };
 
-const ChartContext = createContext<ChartData[] | null>(null);
+const ChartContext = createContext<ChartData[] | undefined>(undefined);
 
 export function ChartProvider({ children }: { children: React.ReactNode }) {
-  const { data: invoices } = useSuspenseQuery({
+  const { data: invoices } = useQuery({
     ...invoicesOptions,
     select: (data) => data.invoices,
+    enabled: false,
   });
+  console.log("running ChartProvider", invoices?.length);
 
   const data = useMemo(() => {
-    console.log("running useChart", invoices?.length);
-    console.time("chart");
-    const d = invoices?.reduce<ChartData[]>((acc, invoice) => {
+    return invoices?.reduce<ChartData[]>((acc, invoice) => {
       const month = dayjs(invoice.invoiceDate).month();
       const year = dayjs(invoice.invoiceDate).year();
       const total = invoice.totalAmount;
@@ -43,8 +43,6 @@ export function ChartProvider({ children }: { children: React.ReactNode }) {
 
       return acc;
     }, []);
-    console.timeEnd("chart");
-    return d;
   }, [invoices]);
   return <ChartContext.Provider value={data}>{children}</ChartContext.Provider>;
 }

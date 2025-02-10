@@ -1,5 +1,3 @@
-import { ChartProvider } from "@/hooks/useChart";
-import { SummaryProvider } from "@/hooks/useSummary";
 import { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
@@ -35,11 +33,7 @@ export const Route = createRootRouteWithContext<RouteContext>()({
   },
   component: () => (
     <>
-      <ChartProvider>
-        <SummaryProvider>
-          <Outlet />
-        </SummaryProvider>
-      </ChartProvider>
+      <Outlet />
       <Suspense>
         <TanStackRouterDevtools position="bottom-left" />
       </Suspense>

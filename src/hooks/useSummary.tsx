@@ -1,7 +1,7 @@
 import { invoicesOptions } from "@/queries";
 import { Invoice } from "@/validations";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useMemo, createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext, useMemo } from "react";
 
 type Summary = {
   currency: Invoice["currency"];
@@ -10,15 +10,16 @@ type Summary = {
   unpaid: number;
 };
 
-const SummaryContext = createContext<Summary[] | null>(null);
+const SummaryContext = createContext<Summary[] | undefined>(undefined);
 
 export function SummaryProvider({ children }: { children: React.ReactNode }) {
-  const { data: invoices } = useSuspenseQuery({
+  const { data: invoices } = useQuery({
     ...invoicesOptions,
     select: (data) => data.invoices,
+    enabled: false,
   });
+  console.log("running SummaryProvider", invoices?.length);
   const data = useMemo(() => {
-    console.log("running useMemo in Summary.tsx", invoices?.length);
     return invoices?.reduce<Summary[]>((acc, invoice) => {
       const currency = invoice.currency;
       const total = invoice.totalAmount;
